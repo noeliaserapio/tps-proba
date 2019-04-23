@@ -99,3 +99,13 @@ print(casos_exitosos / cantidad_de_repeticiones)
 
 # P(casos_exitosos / cantidad_de_repeticiones) >= 0.9 <=> ????????
 
+cantidad_sobres_prob_mayor = quantile(resultados_de_experimentos, probs = 0.90)
+print(cantidad_sobres_prob_mayor)
+
+# Cual es el valor esperado de sobres para completar el album?
+esperanza = mean(resultados_de_experimentos)
+print(esperanza)
+
+# cual es el desvio de la cantidad de sobres para completar el album?
+desviacion = sd(resultados_de_experimentos)
+print(desviacion)
