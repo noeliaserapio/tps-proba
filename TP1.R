@@ -24,8 +24,8 @@ print(album_lleno(mock_album_incompleto))
 
 ## Ejercicio 3
 
-generar_sobre = function(tam_album, tam_sobre){
-  return(sample(1:tam_album, tam_sobre, replace=TRUE))
+generar_sobre = function(tam_album, tam_sobre, con_repetidos = TRUE){
+  return(sample(1:tam_album, tam_sobre, replace=con_repetidos))
 }
 
 sobre = generar_sobre(tam_album=6, tam_sobre=3)
@@ -59,11 +59,11 @@ album = pegar_sobre(album, sobre_2)
 print(album)
 
 ## Ejercicio 5
-cuantas_figuritas = function(tam_album, tam_sobre){
+cuantas_figuritas = function(tam_album, tam_sobre, sobre_con_repetidos = TRUE){
   cantidad_de_sobres_usados = 0
   album = rep(FALSE, tam_album)
   while(!album_lleno(album=album)) {
-    sobre = generar_sobre(tam_album=tam_album, tam_sobre=tam_sobre)
+    sobre = generar_sobre(tam_album=tam_album, tam_sobre=tam_sobre, con_repetidos=sobre_con_repetidos)
     album = pegar_sobre(album=album, sobre=sobre)
     cantidad_de_sobres_usados = cantidad_de_sobres_usados + 1
   }
@@ -96,9 +96,6 @@ print(casos_exitosos / cantidad_de_repeticiones)
 
 # La cantidad de sobres que hacen falta comprar para completar el album con probabilidad mayor o igual a 0.9.
 # P(X < x) >= 0.9
-
-# P(casos_exitosos / cantidad_de_repeticiones) >= 0.9 <=> ????????
-
 cantidad_sobres_prob_mayor = quantile(resultados_de_experimentos, probs = 0.90)
 print(cantidad_sobres_prob_mayor)
 
@@ -109,3 +106,31 @@ print(esperanza)
 # cual es el desvio de la cantidad de sobres para completar el album?
 desviacion = sd(resultados_de_experimentos)
 print(desviacion)
+
+# Ejercicio 8
+
+cantidad_de_repeticiones = 1000
+resultados_de_experimentos = c()
+for(i in 1:cantidad_de_repeticiones) {
+  resultados_de_experimentos = c(resultados_de_experimentos, cuantas_figuritas(tam_album=670, tam_sobre=5, sobre_con_repetidos=FALSE))
+}
+
+plot(1:cantidad_de_repeticiones, resultados_de_experimentos, main = 'Resultados de experimentos')
+
+# Cuál es la probabilidad de terminar el album con 800 sobres o menos?
+casos_exitosos = length(which(resultados_de_experimentos <= 800))
+print(casos_exitosos / cantidad_de_repeticiones)
+
+# La cantidad de sobres que hacen falta comprar para completar el album con probabilidad mayor o igual a 0.9.
+# P(X < x) >= 0.9
+cantidad_sobres_prob_mayor = quantile(resultados_de_experimentos, probs = 0.90)
+print(cantidad_sobres_prob_mayor)
+
+# Cual es el valor esperado de sobres para completar el album?
+esperanza = mean(resultados_de_experimentos)
+print(esperanza)
+
+# cual es el desvio de la cantidad de sobres para completar el album?
+desviacion = sd(resultados_de_experimentos)
+print(desviacion)
+
